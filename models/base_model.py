@@ -56,6 +56,6 @@ class BaseModel:
             del dictionary['_sa_instance_state']
         return dictionary
 
-    def delete(self):
+    def delete(self): # +T6
         from models import storage
         storage.delete(self)
