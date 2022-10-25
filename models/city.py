@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+# from models.user import User
+# from models.state import State
+# from models.amenity import Amenity
+# from models.place import Place
+# from models.review import Review
 import os
 
 
@@ -26,4 +24,4 @@ class City(BaseModel, Base):  # +T6: Base
         name = ""  # -T6
 
     places = relationship("Place", backref="cities",
-                          cascade="all delete-orphan")
+                          cascade="all, delete-orphan")
