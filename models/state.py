@@ -24,6 +24,6 @@ class State(BaseModel, Base): # +T6: Base
         """Returns a list of City instances with state_id = id"""
         cities = {}
         for key, val in storage.all('City').items():
-            if val.state_id == id:
+            if val.state_id == self.id:
                 cities[key] = val
         return cities
