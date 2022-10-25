@@ -5,13 +5,13 @@ Database Storage Engine Module
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
-from models.base_model import BaseModel, Base
-# from models.user import User
-# from models.state import State
-# from models.city import City
-# from models.amenity import Amenity
-# from models.place import Place
-# from models.review import Review
+from models.base_model import Base
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class DBStorage:
@@ -72,7 +72,7 @@ class DBStorage:
         """
         Saves the current database session
         """
-        self.__session.comit()
+        self.__session.commit()
 
     def delete(self, obj=None):
         """

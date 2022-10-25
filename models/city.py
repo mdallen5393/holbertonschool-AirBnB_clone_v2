@@ -14,7 +14,7 @@ import os
 
 class City(BaseModel, Base):  # +T6: Base
     """ The city class, contains state ID and name """
-    if os.getenv('HBNB_TYPE_STORAGE' == 'db'):
+    if os.getenv('HBNB_TYPE_STORAGE') == "db":
         __tablename__ = 'cities'
         state_id = Column(String(60), ForeignKey('states.id'),
                           nullable=False)  # +T6
