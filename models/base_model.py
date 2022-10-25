@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+import os
 
 
 Base = declarative_base()
@@ -11,19 +12,17 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
-    # TODO: figure out where this block goes:
-    id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
-    updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
-    #---------------------------------------#
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         if not kwargs:
-            # from models import storage # -T6
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            # storage.new(self) # -T6
+            if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+                self.id = Column(String(60), nullable=False, primary_key=True)
+                self.created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
+                self.updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
+            else:
+                self.id = str(uuid.uuid4())
+                self.created_at = datetime.now()
+                self.updated_at = datetime.now()
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
