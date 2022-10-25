@@ -3,29 +3,24 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-# from models.state import State
-# from models.city import City
-# from models.amenity import Amenity
-# from models.place import Place
-# from models.review import Review
+import os
 
-
-# commented out code base for task 7
-# class User(BaseModel):
-#     """File Storage Method for User"""
-#     email = ''
-#     password = ''
-#     first_name = ''
-#     last_name = ''
 
 class User(BaseModel, Base):
     """
-    Database Storage Method for User
+    Database vs File Storage Method for User
     """
-    __tablename__ = "users"
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128), nullable=False)
-    last_name = Column(String(128), nullable=False)
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':  # db storage
+        __tablename__ = "users"
+        email = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
+        first_name = Column(String(128), nullable=False)
+        last_name = Column(String(128), nullable=False)
+    else:  # All other storage (file)
+        email = ''
+        password = ''
+        first_name = ''
+        last_name = ''
 
-    places = relationship("Place", backref="user", cascade="all, delete-orphan")
+    places = relationship("Place", backref="user",
+                          cascade="all, delete-orphan")
