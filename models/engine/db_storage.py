@@ -5,7 +5,7 @@ Database Storage Engine Module
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
-from models.base_model import Base
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -34,10 +34,10 @@ class DBStorage:
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(user, password, host, database),
                                       pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
+        # Base.metadata.create_all(self.__engine)
         # drop all tables if env is test
         if env == "test":
-            Base.metadata.dropall()
+            Base.metadata.dropall(self.__engine)
 
     def all(self, cls=None):
         """
@@ -53,10 +53,10 @@ class DBStorage:
                 key = obj.__class__.__name__ + "." + obj.id
                 query_dict[key] = obj
         elif cls is None:
-            cls_dict = {}
+            cls_list = []
             for cls in classes:
-                cls_dict += self.__session.query(cls).all()
-            for obj in cls_dict:
+                cls_list += self.__session.query(cls).all()
+            for obj in cls_list:
                 key = obj.__class__.__name__ + "." + obj.id
                 query_dict[key] = obj
 

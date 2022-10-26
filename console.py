@@ -3,13 +3,13 @@
 import cmd
 import sys
 from models.base_model import BaseModel
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from models.__init__ import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -135,8 +135,10 @@ class HBNBCommand(cmd.Cmd):
                 key_value = float(key_value)
             else:
                 key_value = int(key_value)
+
             if hasattr(new_instance, key_name):
                 setattr(new_instance, key_name, key_value)
+
         storage.new(new_instance)
         storage.save()
         print(new_instance.id)
@@ -222,12 +224,10 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all().items():
-            # for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
             for k, v in storage.all().items():
-            # for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
