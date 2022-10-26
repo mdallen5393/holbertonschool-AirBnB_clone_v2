@@ -7,6 +7,8 @@ import os
 
 # @unittest.skipIf(HBNB_TYPE_STORAGE == 'db')
 # TODO: define HBNB_TYPE_STORAGE somewhere
+
+
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -115,4 +117,3 @@ class test_fileStorage(unittest.TestCase):
     def test_delete(self):
         """ Confirm object is deleted """
         # TODO: add testing for delete method
-

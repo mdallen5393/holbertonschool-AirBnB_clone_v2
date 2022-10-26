@@ -27,9 +27,9 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                    '%Y-%m-%dT%H:%M:%S.%f')
+                                                     '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                    '%Y-%m-%dT%H:%M:%S.%f')
+                                                     '%Y-%m-%dT%H:%M:%S.%f')
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
@@ -40,9 +40,9 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage # +T6
+        from models import storage  # +T6
         self.updated_at = datetime.now()
-        storage.new(self) # +T6
+        storage.new(self)  # +T6
         storage.save()
 
     def to_dict(self):
@@ -53,11 +53,11 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if '_sa_instance_state' in dictionary.keys(): # +T6
+        if '_sa_instance_state' in dictionary.keys():  # +T6
             dictionary.pop('_sa_instance_state', None)
         return dictionary
 
-    def delete(self): # +T6
+    def delete(self):  # +T6
         """Deletes current instance from storage"""
         from models import storage
         storage.delete(self)
