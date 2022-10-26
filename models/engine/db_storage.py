@@ -34,7 +34,7 @@ class DBStorage:
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(user, password, host, database),
                                       pool_pre_ping=True)
-        # Base.metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
         # drop all tables if env is test
         if env == "test":
             Base.metadata.dropall(self.__engine)
@@ -44,23 +44,34 @@ class DBStorage:
         Query current database session for all objects of class
         """
 
-        classes = {User, State, City, Amenity, Place, Review}
+        classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                   'State': State, 'City': City, 'Amenity': Amenity,
+                   'Review': Review}
 
-        query_dict = {}
         if cls in classes:
-            cls_dict = self.__session.query(cls).all()
-            for obj in cls_dict:
-                key = obj.__class__.__name__ + "." + obj.id
-                query_dict[key] = obj
-        elif cls is None:
-            cls_list = []
-            for cls in classes:
-                cls_list += self.__session.query(cls).all()
-            for obj in cls_list:
-                key = obj.__class__.__name__ + "." + obj.id
-                query_dict[key] = obj
+            class_dict = {}
+            if isinstance(cls, str):
+                cls = classes[cls]
+            all_objects = self.__session.query(cls).all()
+            for obj in all_objects:
+                class_dict[f'{obj.id}'] = obj
+            return(class_dict)
 
-        return query_dict
+        else:
+            all_dict = {}
+
+            all_list = []
+            all_list.append(self.all(User))
+            all_list.append(self.all(Place))
+            all_list.append(self.all(State))
+            all_list.append(self.all(City))
+            all_list.append(self.all(Amenity))
+            all_list.append(self.all(Review))
+
+            for list_item in all_list:
+                all_dict.update(list_item)
+
+            return(all_dict)
 
     def new(self, obj):
         """
@@ -89,3 +100,9 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                                      expire_on_commit=False))
+
+    def close(self):
+        """
+        End attributes
+        """
+        self.__session.remove()
