@@ -5,13 +5,19 @@ Database Storage Engine Module
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
+# from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+
+classes = {'User': User, 'Place': Place,
+           'State': State, 'City': City,
+           'Review': Review,
+        #    'Amenity': Amenity
+           }
 
 
 class DBStorage:
@@ -34,44 +40,25 @@ class DBStorage:
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(user, password, host, database),
                                       pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
-        # drop all tables if env is test
         if env == "test":
-            Base.metadata.dropall(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """
         Query current database session for all objects of class
         """
 
-        classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                   'State': State, 'City': City, 'Amenity': Amenity,
-                   'Review': Review}
+        object_dict = {}
 
-        if cls in classes:
-            class_dict = {}
-            if isinstance(cls, str):
-                cls = classes[cls]
-            all_objects = self.__session.query(cls).all()
-            for obj in all_objects:
-                class_dict[f'{obj.id}'] = obj
-            return(class_dict)
-
+        if cls is not None:
+            for obj in self.__session.query(cls).all():
+                object_dict.update({f'{type(cls).__name__}.{obj.id}': obj})
         else:
-            all_dict = {}
-
-            all_list = []
-            all_list.append(self.all(User))
-            all_list.append(self.all(Place))
-            all_list.append(self.all(State))
-            all_list.append(self.all(City))
-            all_list.append(self.all(Amenity))
-            all_list.append(self.all(Review))
-
-            for list_item in all_list:
-                all_dict.update(list_item)
-
-            return(all_dict)
+            for name in classes.values():
+                object_list = self.__session.query(name)
+                for obj in object_list:
+                    object_dict.update({f'{type(obj).__name__}.{obj.id}': obj})
+        return object_dict
 
     def new(self, obj):
         """

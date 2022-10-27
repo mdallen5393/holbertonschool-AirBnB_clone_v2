@@ -12,7 +12,6 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
 
-    # if os.getenv('HBNB_TYPE_STORAGE') == 'db':
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow(),
                         nullable=False)
@@ -40,9 +39,9 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage  # +T6
+        from models import storage
         self.updated_at = datetime.now()
-        storage.new(self)  # +T6
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
