@@ -24,7 +24,6 @@ class test_fileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        # added Exception in line below for pycodestyle
         except Exception:
             pass
 
