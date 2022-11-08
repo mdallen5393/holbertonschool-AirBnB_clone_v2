@@ -64,7 +64,7 @@ class Place(BaseModel, Base):
             amenity_dict = storage.all(Amenity)
 
             for amenity_inst in amenity_dict.values():
-                if amenity_inst.id == self.amenity_id:
+                if amenity_inst.id == self.amenity_ids:
                     amenity_list.append(amenity_inst)
             return amenity_list
 
