@@ -9,14 +9,13 @@ from models.base_model import Base
 from models.user import User
 from models.state import State
 from models.city import City
-# from models.amenity import Amenity
+from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
 classes = {'User': User, 'Place': Place,
            'State': State, 'City': City,
-           'Review': Review,
-           #    'Amenity': Amenity
+           'Review': Review, 'Amenity': Amenity
            }
 
 
@@ -78,6 +77,8 @@ class DBStorage:
         """
         if obj is not None:
             self.__session.delete(obj)
+        else:
+            pass
 
     def reload(self):
         """
