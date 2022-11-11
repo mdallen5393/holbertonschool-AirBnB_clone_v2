@@ -32,7 +32,7 @@ def hello_C(text):
     `text` variable (replace `_` symbols with
     a space ` `.
     """
-    return "C {}".format(text)
+    return "C {}".format(text.replace("_", " "))
 
 
 if __name__ == "__main__":
