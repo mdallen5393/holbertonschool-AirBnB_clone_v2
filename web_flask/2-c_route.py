@@ -26,7 +26,7 @@ def HBNB():
 
 
 @app.route("/c/<text>")
-def hello_C(text):
+def c_is_fun(text):
     """
     Returns `C` followed by the value of the
     `text` variable (replace `_` symbols with
