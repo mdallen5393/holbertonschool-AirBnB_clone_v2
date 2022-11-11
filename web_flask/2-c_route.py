@@ -24,6 +24,7 @@ def HBNB():
     """
     return "HBNB"
 
+
 @app.route("/c/<text>")
 def hello_C(text):
     """
