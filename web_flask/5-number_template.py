@@ -57,6 +57,10 @@ def is_number(n):
 
 @app.route("/number_template/<int:n>")
 def html_if_num(n):
+    """
+    Returns an html page containing `n` if `n`
+    is an integer.
+    """
     return("""<!DOCTYPE html>
 <HTML lang="en">
     <HEAD>
