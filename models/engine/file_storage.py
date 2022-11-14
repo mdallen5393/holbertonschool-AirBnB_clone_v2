@@ -69,7 +69,8 @@ class FileStorage:
         for key, value in dict(FileStorage.__objects).items():
             if value == obj:
                 del FileStorage.__objects[key]
-    def close(self): # p1170t7
+
+    def close(self):  # p1170t7
         """
         Calls the reload() method for de-
         serializing the JSON file to objects.
