@@ -2,7 +2,7 @@
 """
 Script that starts a Flask web application.
 """
-from flask import Flask
+from flask import Flask, render_template
 from sys import argv
 
 app = Flask(__name__)
@@ -61,15 +61,7 @@ def html_if_num(n):
     Returns an html page containing `n` if `n`
     is an integer.
     """
-    return("""<!DOCTYPE html>
-<HTML lang="en">
-    <HEAD>
-        <TITLE>HBNB</TITLE>
-    </HEAD>
-    <BODY>
-        <H1>Number: {}</H1>
-    </BODY>
-</HTML>""".format(n))
+    return render_template('5-number.html', num=n)
 
 
 if __name__ == "__main__":

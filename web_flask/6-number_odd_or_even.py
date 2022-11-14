@@ -2,7 +2,7 @@
 """
 Script that starts a Flask web application.
 """
-from flask import Flask
+from flask import Flask, render_template
 from sys import argv
 
 app = Flask(__name__)
@@ -61,15 +61,7 @@ def html_if_num(n):
     Returns an html page containing `n` if `n`
     is an integer.
     """
-    return("""<!DOCTYPE html>
-<HTML lang="en">
-    <HEAD>
-        <TITLE>HBNB</TITLE>
-    </HEAD>
-    <BODY>
-        <H1>Number: {}</H1>
-    </BODY>
-</HTML>""".format(n))
+    return render_template('5-number.html', num=n)
 
 
 @app.route("/number_odd_or_even/<int:n>")
@@ -79,15 +71,8 @@ def odd_or_even(n):
     if `n` is an even integer, or `{n} is odd` if
     `n` is an odd integer.
     """
-    return("""<!DOCTYPE html>
-<HTML lang="en">
-    <HEAD>
-        <TITLE>HBNB</TITLE>
-    </HEAD>
-    <BODY>
-        <H1>Number: {} is {}</H1>
-    </BODY>
-</HTML>""".format(n, "even" if n % 2 == 0 else "odd"))
+    return render_template('6-number_odd_or_even.html', num=n,
+                           isOE=("even" if n % 2 == 0 else "odd"))
 
 
 if __name__ == "__main__":
